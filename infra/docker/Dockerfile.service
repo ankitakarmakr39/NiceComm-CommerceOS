@@ -6,7 +6,6 @@ ARG SERVICE_NAME
 
 COPY package*.json ./
 COPY apps ./apps
-COPY packages ./packages
 
 RUN npm ci --omit=dev
 
