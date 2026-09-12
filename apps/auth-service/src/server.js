@@ -1,10 +1,9 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
 
 const authRoutes = require("./routes/authRoute");
-
-dotenv.config();
 
 const app = express();
 
@@ -21,8 +20,8 @@ app.get("/health", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 
-const PORT = process.env.AUTH_SERVICE_PORT || 4001;
+const PORT = process.env.PORT || 4001;
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Auth Service running on port ${PORT}`);
 });
