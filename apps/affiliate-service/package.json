@@ -1,0 +1,21 @@
+{
+  "name": "nicecomm-affiliate-service",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NiceComm Affiliate Partner Service",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "pg": "^8.23.0",
+    "dotenv": "^17.2.2",
+    "cors": "^2.8.6",
+    "jsonwebtoken": "^9.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

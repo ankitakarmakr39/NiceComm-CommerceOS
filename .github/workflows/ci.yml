@@ -1,0 +1,60 @@
+name: NiceComm CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  install-and-check:
+    name: Install and Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check workspace
+        run: npm ls --workspaces --depth=0
+
+      - name: Check backend service package files
+        run: |
+          for service in \
+            auth-service \
+            participant-service \
+            commerce-service \
+            order-service \
+            warehouse-service \
+            packaging-service \
+            logistics-service \
+            marketing-service \
+            affiliate-service \
+            inspection-service \
+            repair-service \
+            installation-service \
+            support-service \
+            compliance-service \
+            api-gateway
+            do
+            test -f "apps/$service/package.json"
+            echo "$service package.json found"
+          done
+
+      - name: Build frontend
+        working-directory: apps/web
+        run: npm run build

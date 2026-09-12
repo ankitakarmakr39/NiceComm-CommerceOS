@@ -1,0 +1,371 @@
+services:
+
+  postgres:
+    image: postgres:18-alpine
+    container_name: nicecomm-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: nicecomm
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - nicecomm_postgres_data:/var/lib/postgresql/data
+
+  auth-service:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.service
+      args:
+        SERVICE_NAME: auth-service
+    container_name: nicecomm-auth-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4001
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: nicecomm
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgres
+    ports:
+      - "4001:4001"
+
+  participant-service:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.service
+      args:
+        SERVICE_NAME: participant-service
+    container_name: nicecomm-participant-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4002
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: nicecomm
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgres
+    ports:
+      - "4002:4002"
+
+  commerce-service:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.service
+      args:
+        SERVICE_NAME: commerce-service
+    container_name: nicecomm-commerce-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4003
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: nicecomm
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgres
+    ports:
+      - "4003:4003"
+
+  order-service:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.service
+      args:
+        SERVICE_NAME: order-service
+    container_name: nicecomm-order-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4004
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: nicecomm
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgres
+    ports:
+      - "4004:4004"
+
+  warehouse-service:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.service
+      args:
+        SERVICE_NAME: warehouse-service
+    container_name: nicecomm-warehouse-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4006
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: nicecomm
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgres
+    ports:
+      - "4006:4006"
+
+  packaging-service:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.service
+      args:
+        SERVICE_NAME: packaging-service
+    container_name: nicecomm-packaging-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4007
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: nicecomm
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgres
+    ports:
+      - "4007:4007"
+
+  logistics-service:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.service
+      args:
+        SERVICE_NAME: logistics-service
+    container_name: nicecomm-logistics-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4008
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: nicecomm
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgres
+    ports:
+      - "4008:4008"
+
+  marketing-service:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.service
+      args:
+        SERVICE_NAME: marketing-service
+    container_name: nicecomm-marketing-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4009
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: nicecomm
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgres
+    ports:
+      - "4009:4009"
+
+  affiliate-service:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.service
+      args:
+        SERVICE_NAME: affiliate-service
+    container_name: nicecomm-affiliate-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4010
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: nicecomm
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgres
+    ports:
+      - "4010:4010"
+
+  inspection-service:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.service
+      args:
+        SERVICE_NAME: inspection-service
+    container_name: nicecomm-inspection-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4011
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: nicecomm
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgres
+    ports:
+      - "4011:4011"
+
+  repair-service:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.service
+      args:
+        SERVICE_NAME: repair-service
+    container_name: nicecomm-repair-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4012
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: nicecomm
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgres
+    ports:
+      - "4012:4012"
+
+  installation-service:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.service
+      args:
+        SERVICE_NAME: installation-service
+    container_name: nicecomm-installation-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4013
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: nicecomm
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgres
+    ports:
+      - "4013:4013"
+
+  support-service:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.service
+      args:
+        SERVICE_NAME: support-service
+    container_name: nicecomm-support-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4014
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: nicecomm
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgres
+    ports:
+      - "4014:4014"
+
+  compliance-service:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.service
+      args:
+        SERVICE_NAME: compliance-service
+    container_name: nicecomm-compliance-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4015
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: nicecomm
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgres
+    ports:
+      - "4015:4015"
+
+  api-gateway:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.service
+      args:
+        SERVICE_NAME: api-gateway
+    container_name: nicecomm-api-gateway
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+
+      AUTH_SERVICE_URL: http://auth-service:4001
+      PARTICIPANT_SERVICE_URL: http://participant-service:4002
+      COMMERCE_SERVICE_URL: http://commerce-service:4003
+      ORDER_SERVICE_URL: http://order-service:4004
+      WAREHOUSE_SERVICE_URL: http://warehouse-service:4006
+      PACKAGING_SERVICE_URL: http://packaging-service:4007
+      LOGISTICS_SERVICE_URL: http://logistics-service:4008
+      MARKETING_SERVICE_URL: http://marketing-service:4009
+      AFFILIATE_SERVICE_URL: http://affiliate-service:4010
+      INSPECTION_SERVICE_URL: http://inspection-service:4011
+      REPAIR_SERVICE_URL: http://repair-service:4012
+      INSTALLATION_SERVICE_URL: http://installation-service:4013
+      SUPPORT_SERVICE_URL: http://support-service:4014
+      COMPLIANCE_SERVICE_URL: http://compliance-service:4015
+
+    depends_on:
+      - auth-service
+      - participant-service
+      - commerce-service
+      - order-service
+      - warehouse-service
+      - packaging-service
+      - logistics-service
+      - marketing-service
+      - affiliate-service
+      - inspection-service
+      - repair-service
+      - installation-service
+      - support-service
+      - compliance-service
+
+    ports:
+      - "4000:4000"
+
+volumes:
+  nicecomm_postgres_data:
