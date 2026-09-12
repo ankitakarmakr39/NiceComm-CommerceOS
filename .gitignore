@@ -40,3 +40,5 @@ temp/
 
 # Uploads
 uploads/
+# Temporary frontend archive
+apps/web.zip
