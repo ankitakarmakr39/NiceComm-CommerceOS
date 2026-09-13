@@ -21,8 +21,8 @@ app.get("/health", (req, res) => {
 
 app.use("/api/warehouse", warehouseRoutes);
 
-const PORT = process.env.WAREHOUSE_SERVICE_PORT || 4006;
+const PORT = process.env.PORT;
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`Warehouse Service running on port ${PORT}`);
 });
