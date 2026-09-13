@@ -21,10 +21,8 @@ app.get("/health", (req, res) => {
 
 app.use("/api/marketing", marketingRoutes);
 
-const PORT = process.env.MARKETING_SERVICE_PORT || 4009;
+const PORT = process.env.PORT;
 
-app.listen(PORT, () => {
-    console.log(
-        `Marketing Service running on port ${PORT}`
-    );
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Marketing Service running on port ${PORT}`);
 });
