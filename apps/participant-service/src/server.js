@@ -21,8 +21,8 @@ app.get("/health", (req, res) => {
 
 app.use("/api/participants", participantRoutes);
 
-const PORT = process.env.PARTICIPANT_SERVICE_PORT || 4002;
+const PORT = process.env.PORT || 4002;
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Participant Service running on port ${PORT}`);
 });
