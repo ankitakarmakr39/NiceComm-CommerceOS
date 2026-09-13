@@ -11,8 +11,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/compliance", complianceRoutes);
-
 app.get("/health", (req, res) => {
   res.status(200).json({
     service: "compliance-service",
@@ -21,11 +19,10 @@ app.get("/health", (req, res) => {
   });
 });
 
-const PORT =
-  process.env.COMPLIANCE_SERVICE_PORT || 4015;
+app.use("/api/compliance", complianceRoutes);
 
-app.listen(PORT, () => {
-  console.log(
-    `Compliance Service running on port ${PORT}`
-  );
+const PORT = process.env.PORT;
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Compliance Service running on port ${PORT}`);
 });
