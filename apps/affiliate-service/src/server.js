@@ -21,11 +21,8 @@ app.get("/health", (req, res) => {
 
 app.use("/api/affiliate", affiliateRoutes);
 
-const PORT =
-    process.env.AFFILIATE_SERVICE_PORT || 4010;
+const PORT = process.env.PORT;
 
-app.listen(PORT, () => {
-    console.log(
-        `Affiliate Service running on port ${PORT}`
-    );
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Affiliate Service running on port ${PORT}`);
 });
