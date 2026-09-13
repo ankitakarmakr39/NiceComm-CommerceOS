@@ -21,8 +21,8 @@ app.get("/health", (req, res) => {
 
 app.use("/api/packaging", packagingRoutes);
 
-const PORT = process.env.PACKAGING_SERVICE_PORT || 4007;
+const PORT = process.env.PORT || 4007;
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`Packaging Service running on port ${PORT}`);
 });
