@@ -30,8 +30,8 @@ app.use("/api/orders", orderRoutes);
 // ==========================================
 // SERVER
 // ==========================================
-const PORT = process.env.ORDER_SERVICE_PORT || 4004;
+const PORT = process.env.PORT || 4004;
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Order Service running on port ${PORT}`);
 });
