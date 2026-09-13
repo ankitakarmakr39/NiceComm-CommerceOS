@@ -38,8 +38,8 @@ app.use("/api/cart", cartRoutes);
 */
 app.use("/api/checkout", checkoutRoutes);
 
-const PORT = process.env.COMMERCE_SERVICE_PORT || 4003;
+const PORT = process.env.PORT || 4003;
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Commerce Service running on port ${PORT}`);
 });
