@@ -11,13 +11,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    service: "installation-service",
+    status: "OK",
+    message: "Installation Service is running",
+  });
+});
+
 app.use("/api/installation", installationRoutes);
 
-const PORT =
-  process.env.INSTALLATION_SERVICE_PORT || 4013;
+const PORT = process.env.PORT;
 
-app.listen(PORT, () => {
-  console.log(
-    `Installation Service running on port ${PORT}`
-  );
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Installation Service running on port ${PORT}`);
 });
