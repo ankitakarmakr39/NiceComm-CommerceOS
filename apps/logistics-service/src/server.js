@@ -21,10 +21,8 @@ app.get("/health", (req, res) => {
 
 app.use("/api/logistics", logisticsRoutes);
 
-const PORT = process.env.LOGISTICS_SERVICE_PORT || 4008;
+const PORT = process.env.PORT;
 
-app.listen(PORT, () => {
-    console.log(
-        `Logistics Service running on port ${PORT}`
-    );
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Logistics Service running on port ${PORT}`);
 });
