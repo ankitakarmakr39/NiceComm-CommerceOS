@@ -11,13 +11,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    service: "support-service",
+    status: "OK",
+    message: "Support Service is running",
+  });
+});
+
 app.use("/api/support", supportRoutes);
 
-const PORT =
-  process.env.SUPPORT_SERVICE_PORT || 4014;
+const PORT = process.env.PORT;
 
-app.listen(PORT, () => {
-  console.log(
-    `Support Service running on port ${PORT}`
-  );
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Support Service running on port ${PORT}`);
 });
