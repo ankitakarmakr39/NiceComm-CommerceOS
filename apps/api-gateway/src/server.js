@@ -1,3 +1,4 @@
+
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -103,15 +104,6 @@ serviceRoutes.forEach(({ path, target }) => {
       changeOrigin: true,
       xfwd: true,
 
-      /*
-       * Express removes the mounted path before
-       * handing the request to the middleware.
-       * Restore the original API path.
-       */
-      pathRewrite: (path, req) => {
-        return req.originalUrl;
-      },
-
       on: {
         error: (error, req, res) => {
           console.error("Gateway Proxy Error:", {
@@ -154,3 +146,4 @@ const PORT = process.env.PORT || 4000;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`API Gateway running on port ${PORT}`);
 });
+
