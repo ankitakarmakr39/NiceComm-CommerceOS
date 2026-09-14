@@ -25,184 +25,112 @@ app.get("/health", (req, res) => {
 
 /*
 |--------------------------------------------------------------------------
-| Proxy Helper
+| Service Proxy
 |--------------------------------------------------------------------------
 */
-const createServiceProxy = (target) => {
-  return createProxyMiddleware({
-    target,
-    changeOrigin: true,
-    xfwd: true,
-    pathRewrite: (path) => path,
-    on: {
-      error: (error, req, res) => {
-        console.error("Gateway Proxy Error:", {
-          target,
-          path: req.originalUrl,
-          message: error.message,
-        });
+const serviceRoutes = [
+  {
+    path: "/api/auth",
+    target: process.env.AUTH_SERVICE_URL,
+  },
+  {
+    path: "/api/participants",
+    target: process.env.PARTICIPANT_SERVICE_URL,
+  },
+  {
+    path: "/api/products",
+    target: process.env.COMMERCE_SERVICE_URL,
+  },
+  {
+    path: "/api/cart",
+    target: process.env.COMMERCE_SERVICE_URL,
+  },
+  {
+    path: "/api/checkout",
+    target: process.env.COMMERCE_SERVICE_URL,
+  },
+  {
+    path: "/api/orders",
+    target: process.env.ORDER_SERVICE_URL,
+  },
+  {
+    path: "/api/warehouse",
+    target: process.env.WAREHOUSE_SERVICE_URL,
+  },
+  {
+    path: "/api/packaging",
+    target: process.env.PACKAGING_SERVICE_URL,
+  },
+  {
+    path: "/api/logistics",
+    target: process.env.LOGISTICS_SERVICE_URL,
+  },
+  {
+    path: "/api/marketing",
+    target: process.env.MARKETING_SERVICE_URL,
+  },
+  {
+    path: "/api/affiliate",
+    target: process.env.AFFILIATE_SERVICE_URL,
+  },
+  {
+    path: "/api/inspection",
+    target: process.env.INSPECTION_SERVICE_URL,
+  },
+  {
+    path: "/api/compliance",
+    target: process.env.COMPLIANCE_SERVICE_URL,
+  },
+  {
+    path: "/api/installation",
+    target: process.env.INSTALLATION_SERVICE_URL,
+  },
+  {
+    path: "/api/repair",
+    target: process.env.REPAIR_SERVICE_URL,
+  },
+  {
+    path: "/api/support",
+    target: process.env.SUPPORT_SERVICE_URL,
+  },
+];
 
-        if (!res.headersSent) {
-          res.status(502).json({
-            message: "Bad Gateway",
-            service: target,
-            error: error.message,
-          });
-        }
+serviceRoutes.forEach(({ path, target }) => {
+  app.use(
+    path,
+    createProxyMiddleware({
+      target,
+      changeOrigin: true,
+      xfwd: true,
+
+      /*
+       * Express removes the mounted path before
+       * handing the request to the middleware.
+       * Restore the original API path.
+       */
+      pathRewrite: (path, req) => {
+        return req.originalUrl;
       },
-    },
-  });
-};
 
-/*
-|--------------------------------------------------------------------------
-| Auth Service
-|--------------------------------------------------------------------------
-*/
-app.use(
-  "/api/auth",
-  createServiceProxy(process.env.AUTH_SERVICE_URL)
-);
+      on: {
+        error: (error, req, res) => {
+          console.error("Gateway Proxy Error:", {
+            target,
+            path: req.originalUrl,
+            message: error.message,
+          });
 
-/*
-|--------------------------------------------------------------------------
-| Participant Service
-|--------------------------------------------------------------------------
-*/
-app.use(
-  "/api/participants",
-  createServiceProxy(process.env.PARTICIPANT_SERVICE_URL)
-);
-
-/*
-|--------------------------------------------------------------------------
-| Commerce Service
-|--------------------------------------------------------------------------
-*/
-app.use(
-  "/api/products",
-  createServiceProxy(process.env.COMMERCE_SERVICE_URL)
-);
-
-app.use(
-  "/api/cart",
-  createServiceProxy(process.env.COMMERCE_SERVICE_URL)
-);
-
-app.use(
-  "/api/checkout",
-  createServiceProxy(process.env.COMMERCE_SERVICE_URL)
-);
-
-/*
-|--------------------------------------------------------------------------
-| Order Service
-|--------------------------------------------------------------------------
-*/
-app.use(
-  "/api/orders",
-  createServiceProxy(process.env.ORDER_SERVICE_URL)
-);
-
-/*
-|--------------------------------------------------------------------------
-| Warehouse Service
-|--------------------------------------------------------------------------
-*/
-app.use(
-  "/api/warehouse",
-  createServiceProxy(process.env.WAREHOUSE_SERVICE_URL)
-);
-
-/*
-|--------------------------------------------------------------------------
-| Packaging Service
-|--------------------------------------------------------------------------
-*/
-app.use(
-  "/api/packaging",
-  createServiceProxy(process.env.PACKAGING_SERVICE_URL)
-);
-
-/*
-|--------------------------------------------------------------------------
-| Logistics Service
-|--------------------------------------------------------------------------
-*/
-app.use(
-  "/api/logistics",
-  createServiceProxy(process.env.LOGISTICS_SERVICE_URL)
-);
-
-/*
-|--------------------------------------------------------------------------
-| Marketing Service
-|--------------------------------------------------------------------------
-*/
-app.use(
-  "/api/marketing",
-  createServiceProxy(process.env.MARKETING_SERVICE_URL)
-);
-
-/*
-|--------------------------------------------------------------------------
-| Affiliate Service
-|--------------------------------------------------------------------------
-*/
-app.use(
-  "/api/affiliate",
-  createServiceProxy(process.env.AFFILIATE_SERVICE_URL)
-);
-
-/*
-|--------------------------------------------------------------------------
-| Inspection Service
-|--------------------------------------------------------------------------
-*/
-app.use(
-  "/api/inspection",
-  createServiceProxy(process.env.INSPECTION_SERVICE_URL)
-);
-
-/*
-|--------------------------------------------------------------------------
-| Compliance Service
-|--------------------------------------------------------------------------
-*/
-app.use(
-  "/api/compliance",
-  createServiceProxy(process.env.COMPLIANCE_SERVICE_URL)
-);
-
-/*
-|--------------------------------------------------------------------------
-| Installation Service
-|--------------------------------------------------------------------------
-*/
-app.use(
-  "/api/installation",
-  createServiceProxy(process.env.INSTALLATION_SERVICE_URL)
-);
-
-/*
-|--------------------------------------------------------------------------
-| Repair Service
-|--------------------------------------------------------------------------
-*/
-app.use(
-  "/api/repair",
-  createServiceProxy(process.env.REPAIR_SERVICE_URL)
-);
-
-/*
-|--------------------------------------------------------------------------
-| Support Service
-|--------------------------------------------------------------------------
-*/
-app.use(
-  "/api/support",
-  createServiceProxy(process.env.SUPPORT_SERVICE_URL)
-);
+          if (!res.headersSent) {
+            res.status(502).json({
+              message: "Bad Gateway",
+              error: error.message,
+            });
+          }
+        },
+      },
+    })
+  );
+});
 
 /*
 |--------------------------------------------------------------------------
