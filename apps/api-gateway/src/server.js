@@ -8,6 +8,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 
 /*
 |--------------------------------------------------------------------------
@@ -24,15 +25,43 @@ app.get("/health", (req, res) => {
 
 /*
 |--------------------------------------------------------------------------
+| Proxy Helper
+|--------------------------------------------------------------------------
+*/
+const createServiceProxy = (target) => {
+  return createProxyMiddleware({
+    target,
+    changeOrigin: true,
+    xfwd: true,
+    pathRewrite: (path) => path,
+    on: {
+      error: (error, req, res) => {
+        console.error("Gateway Proxy Error:", {
+          target,
+          path: req.originalUrl,
+          message: error.message,
+        });
+
+        if (!res.headersSent) {
+          res.status(502).json({
+            message: "Bad Gateway",
+            service: target,
+            error: error.message,
+          });
+        }
+      },
+    },
+  });
+};
+
+/*
+|--------------------------------------------------------------------------
 | Auth Service
 |--------------------------------------------------------------------------
 */
 app.use(
   "/api/auth",
-  createProxyMiddleware({
-    target: process.env.AUTH_SERVICE_URL,
-    changeOrigin: true,
-  })
+  createServiceProxy(process.env.AUTH_SERVICE_URL)
 );
 
 /*
@@ -42,49 +71,27 @@ app.use(
 */
 app.use(
   "/api/participants",
-  createProxyMiddleware({
-    target: process.env.PARTICIPANT_SERVICE_URL,
-    changeOrigin: true,
-  })
+  createServiceProxy(process.env.PARTICIPANT_SERVICE_URL)
 );
 
 /*
 |--------------------------------------------------------------------------
-| Commerce Service - Products
+| Commerce Service
 |--------------------------------------------------------------------------
 */
 app.use(
   "/api/products",
-  createProxyMiddleware({
-    target: process.env.COMMERCE_SERVICE_URL,
-    changeOrigin: true,
-  })
+  createServiceProxy(process.env.COMMERCE_SERVICE_URL)
 );
 
-/*
-|--------------------------------------------------------------------------
-| Commerce Service - Cart
-|--------------------------------------------------------------------------
-*/
 app.use(
   "/api/cart",
-  createProxyMiddleware({
-    target: process.env.COMMERCE_SERVICE_URL,
-    changeOrigin: true,
-  })
+  createServiceProxy(process.env.COMMERCE_SERVICE_URL)
 );
 
-/*
-|--------------------------------------------------------------------------
-| Commerce Service - Checkout
-|--------------------------------------------------------------------------
-*/
 app.use(
   "/api/checkout",
-  createProxyMiddleware({
-    target: process.env.COMMERCE_SERVICE_URL,
-    changeOrigin: true,
-  })
+  createServiceProxy(process.env.COMMERCE_SERVICE_URL)
 );
 
 /*
@@ -94,10 +101,7 @@ app.use(
 */
 app.use(
   "/api/orders",
-  createProxyMiddleware({
-    target: process.env.ORDER_SERVICE_URL,
-    changeOrigin: true,
-  })
+  createServiceProxy(process.env.ORDER_SERVICE_URL)
 );
 
 /*
@@ -107,10 +111,7 @@ app.use(
 */
 app.use(
   "/api/warehouse",
-  createProxyMiddleware({
-    target: process.env.WAREHOUSE_SERVICE_URL,
-    changeOrigin: true,
-  })
+  createServiceProxy(process.env.WAREHOUSE_SERVICE_URL)
 );
 
 /*
@@ -120,10 +121,7 @@ app.use(
 */
 app.use(
   "/api/packaging",
-  createProxyMiddleware({
-    target: process.env.PACKAGING_SERVICE_URL,
-    changeOrigin: true,
-  })
+  createServiceProxy(process.env.PACKAGING_SERVICE_URL)
 );
 
 /*
@@ -133,10 +131,7 @@ app.use(
 */
 app.use(
   "/api/logistics",
-  createProxyMiddleware({
-    target: process.env.LOGISTICS_SERVICE_URL,
-    changeOrigin: true,
-  })
+  createServiceProxy(process.env.LOGISTICS_SERVICE_URL)
 );
 
 /*
@@ -146,10 +141,7 @@ app.use(
 */
 app.use(
   "/api/marketing",
-  createProxyMiddleware({
-    target: process.env.MARKETING_SERVICE_URL,
-    changeOrigin: true,
-  })
+  createServiceProxy(process.env.MARKETING_SERVICE_URL)
 );
 
 /*
@@ -159,10 +151,7 @@ app.use(
 */
 app.use(
   "/api/affiliate",
-  createProxyMiddleware({
-    target: process.env.AFFILIATE_SERVICE_URL,
-    changeOrigin: true,
-  })
+  createServiceProxy(process.env.AFFILIATE_SERVICE_URL)
 );
 
 /*
@@ -172,10 +161,7 @@ app.use(
 */
 app.use(
   "/api/inspection",
-  createProxyMiddleware({
-    target: process.env.INSPECTION_SERVICE_URL,
-    changeOrigin: true,
-  })
+  createServiceProxy(process.env.INSPECTION_SERVICE_URL)
 );
 
 /*
@@ -185,10 +171,7 @@ app.use(
 */
 app.use(
   "/api/compliance",
-  createProxyMiddleware({
-    target: process.env.COMPLIANCE_SERVICE_URL,
-    changeOrigin: true,
-  })
+  createServiceProxy(process.env.COMPLIANCE_SERVICE_URL)
 );
 
 /*
@@ -198,10 +181,7 @@ app.use(
 */
 app.use(
   "/api/installation",
-  createProxyMiddleware({
-    target: process.env.INSTALLATION_SERVICE_URL,
-    changeOrigin: true,
-  })
+  createServiceProxy(process.env.INSTALLATION_SERVICE_URL)
 );
 
 /*
@@ -211,10 +191,7 @@ app.use(
 */
 app.use(
   "/api/repair",
-  createProxyMiddleware({
-    target: process.env.REPAIR_SERVICE_URL,
-    changeOrigin: true,
-  })
+  createServiceProxy(process.env.REPAIR_SERVICE_URL)
 );
 
 /*
@@ -224,10 +201,7 @@ app.use(
 */
 app.use(
   "/api/support",
-  createProxyMiddleware({
-    target: process.env.SUPPORT_SERVICE_URL,
-    changeOrigin: true,
-  })
+  createServiceProxy(process.env.SUPPORT_SERVICE_URL)
 );
 
 /*
