@@ -18,7 +18,7 @@ function AdminSupport() {
             setError("");
 
             const response = await fetch(
-                "http://localhost:4000/api/support/tickets/all",
+                "https://nicecomm-api-gateway.onrender.com/api/support/tickets/all",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -58,7 +58,7 @@ function AdminSupport() {
             setError("");
 
             const response = await fetch(
-                `http://localhost:4000/api/support/tickets/${ticketId}/assign`,
+                `https://nicecomm-api-gateway.onrender.com/api/support/tickets/${ticketId}/assign`,
                 {
                     method: "POST",
                     headers: {
@@ -98,7 +98,7 @@ function AdminSupport() {
             setError("");
 
             const response = await fetch(
-                `http://localhost:4000/api/support/tickets/${ticketId}/status`,
+                `https://nicecomm-api-gateway.onrender.com/api/support/tickets/${ticketId}/status`,
                 {
                     method: "PUT",
                     headers: {

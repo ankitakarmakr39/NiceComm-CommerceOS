@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useNavigate, useParams } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:4000";
+const API_BASE_URL = "https://nicecomm-api-gateway.onrender.com";
 
 const roleTypeMap = {
     Seller: "Seller",

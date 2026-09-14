@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const API_BASE = "http://localhost:4000";
+const API_BASE = "https://nicecomm-api-gateway.onrender.com";
 
 const Installation = () => {
     const [profile, setProfile] = useState(null);

@@ -23,7 +23,7 @@ function Support() {
             setError("");
 
             const response = await fetch(
-                "http://localhost:4000/api/support/tickets",
+                "https://nicecomm-api-gateway.onrender.com/api/support/tickets",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -89,7 +89,7 @@ function Support() {
             }
 
             const response = await fetch(
-                "http://localhost:4000/api/support/tickets",
+                "https://nicecomm-api-gateway.onrender.com/api/support/tickets",
                 {
                     method: "POST",
                     headers: {

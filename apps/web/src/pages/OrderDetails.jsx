@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 
-const API_BASE_URL = "http://localhost:4000";
+const API_BASE_URL = "https://nicecomm-api-gateway.onrender.com";
 
 function OrderDetails() {
     const { id } = useParams();

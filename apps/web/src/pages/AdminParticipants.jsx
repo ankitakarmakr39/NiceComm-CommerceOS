@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const API_BASE_URL = "http://localhost:4000";
+const API_BASE_URL = "https://nicecomm-api-gateway.onrender.com";
 
 const PARTICIPANT_TYPES = [
     { id: 1, name: "Seller" },

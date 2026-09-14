@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext(null);
 
-const API_BASE_URL = "http://localhost:4000";
+const API_BASE_URL = "https://nicecomm-api-gateway.onrender.com";
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(
