@@ -50,8 +50,8 @@ serviceRoutes.forEach(({ path, target }) => {
       changeOrigin: true,
       xfwd: true,
 
-      pathRewrite: (requestPath) => {
-        return requestPath;
+      pathRewrite: (requestPath, req) => {
+        return req.originalUrl;
       },
 
       onProxyReq: (proxyReq, req) => {
