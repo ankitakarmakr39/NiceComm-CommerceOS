@@ -112,7 +112,6 @@ router.get(
 router.put(
   "/tickets/:id/status",
   verifyToken,
-  requireAdmin,
   updateTicketStatus
 );
 
