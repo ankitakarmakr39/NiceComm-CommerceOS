@@ -1,3 +1,4 @@
+
 const express = require("express");
 
 const verifyToken = require("../middleware/authMiddleware");
@@ -100,7 +101,6 @@ router.post(
 router.get(
   "/assigned",
   verifyToken,
-  requireAdmin,
   getAssignedTickets
 );
 
@@ -115,4 +115,6 @@ router.put(
   requireAdmin,
   updateTicketStatus
 );
+
 module.exports = router;
+
