@@ -339,7 +339,6 @@ function AppRoutes() {
                             element={
                                 <RoleRoute
                                     allowedRoles={[
-                                        "Platform Admin",
                                         "Seller",
                                         "Warehouse Provider",
                                         "Logistics Provider",

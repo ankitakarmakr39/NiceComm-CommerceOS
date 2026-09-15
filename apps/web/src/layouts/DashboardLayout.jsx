@@ -71,13 +71,6 @@ function Icon({ name }) {
             </>
         ),
 
-        compliance: (
-            <>
-                <path d="m12 3 7 3v5c0 4.5-2.8 8.1-7 10-4.2-1.9-7-5.5-7-10V6z" />
-                <path d="m8.5 12 2.2 2.2 4.8-5" />
-            </>
-        ),
-
         warehouse: (
             <>
                 <path d="M3 10 12 4l9 6v10H3z" />
@@ -208,7 +201,6 @@ function DashboardLayout() {
     const isInstallation = roles.includes("Installation Partner");
 
     const isCompliance =
-        roles.includes("Platform Admin") ||
         roles.includes("Seller") ||
         roles.includes("Warehouse Provider") ||
         roles.includes("Logistics Provider") ||
