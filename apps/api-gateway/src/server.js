@@ -1,3 +1,4 @@
+
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -53,26 +54,28 @@ serviceRoutes.forEach(({ path, target }) => {
         return req.originalUrl;
       },
 
-      onProxyReq: (proxyReq, req) => {
-        console.log(
-          `Gateway Proxy: ${req.method} ${req.originalUrl} -> ${target}${req.originalUrl}`
-        );
-      },
+      on: {
+        proxyReq: (proxyReq, req) => {
+          console.log(
+            `Gateway Proxy: ${req.method} ${req.originalUrl} -> ${target}${req.originalUrl}`
+          );
+        },
 
-      onError: (err, req, res) => {
-        console.error("Gateway Proxy Error:", {
-          method: req.method,
-          path: req.originalUrl,
-          target,
-          message: err.message,
-        });
-
-        if (!res.headersSent) {
-          res.status(502).json({
-            message: "Bad Gateway",
-            error: err.message,
+        error: (err, req, res) => {
+          console.error("Gateway Proxy Error:", {
+            method: req.method,
+            path: req.originalUrl,
+            target,
+            message: err.message,
           });
-        }
+
+          if (!res.headersSent) {
+            res.status(502).json({
+              message: "Bad Gateway",
+              error: err.message,
+            });
+          }
+        },
       },
     })
   );
@@ -90,3 +93,4 @@ const PORT = process.env.PORT || 4000;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`API Gateway running on port ${PORT}`);
 });
+
